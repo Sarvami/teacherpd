@@ -53,8 +53,8 @@ class TeacherCreate(BaseModel):
         description="Teacher's self-reported biggest challenge (free text)"
     )
     coaching_language: str = Field(
-        "English", max_length=50,
-        description="Preferred language for coaching responses"
+        "English", max_length=200,
+        description="Preferred language(s) for coaching responses (comma-separated)"
     )
 
     @field_validator("name")

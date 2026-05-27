@@ -67,7 +67,7 @@ class ProfileUpdate(BaseModel):
     state: Optional[str] = Field(None, max_length=100)
     district: Optional[str] = Field(None, max_length=100)
     instruction_language: Optional[str] = Field(None, max_length=100)
-    coaching_language: Optional[str] = Field(None, max_length=50)
+    coaching_language: Optional[str] = Field(None, max_length=200)
     biggest_challenge: Optional[str] = Field(None, max_length=1000)
 
 

@@ -3,7 +3,7 @@ import { ArrowRight, UserPlus } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Button } from '../../components/Button'
 import { Card, CardBody, CardHeader, CardTitle } from '../../components/Card'
-import { HelpText, Label, Select, TextArea } from '../../components/Inputs'
+import { HelpText, Label, TextArea } from '../../components/Inputs'
 import { MultiSelect } from '../../components/MultiSelect'
 import { Spinner } from '../../components/Spinner'
 import type { TeacherCreate, TeacherOut } from '../../lib/types'
@@ -43,6 +43,21 @@ const SUBJECT_OPTIONS = [
   'Physical Education',
   'Environmental Studies',
   'Economics',
+]
+
+const LANGUAGE_OPTIONS = [
+  'English',
+  'Hindi',
+  'Tamil',
+  'Telugu',
+  'Kannada',
+  'Marathi',
+  'Bengali',
+  'Gujarati',
+  'Punjabi',
+  'Odia',
+  'Malayalam',
+  'Urdu',
 ]
 
 type Props = {
@@ -154,22 +169,22 @@ export function OnboardingCard({ busy, onCreate }: Props) {
                   className="h-11 w-full rounded-xl bg-slate-900/45 px-3 text-sm text-white/90 ring-1 ring-white/10 outline-none transition placeholder:text-white/30 hover:ring-white/15 focus:ring-2 focus:ring-white/25"
                 />
               </div>
-              <div>
-                <Label htmlFor="coachLang">Coaching language</Label>
-                <Select
-                  id="coachLang"
-                  value={coachingLanguage}
-                  onChange={(e) => setCoachingLanguage(e.target.value)}
-                >
-                  <option value="English">English</option>
-                  <option value="Hindi">Hindi</option>
-                  <option value="Tamil">Tamil</option>
-                  <option value="Telugu">Telugu</option>
-                  <option value="Kannada">Kannada</option>
-                  <option value="Marathi">Marathi</option>
-                  <option value="Bengali">Bengali</option>
-                </Select>
-              </div>
+            </div>
+
+            {/* Coaching languages — multi-select pills */}
+            <div>
+              <Label>Coaching language(s)</Label>
+              <MultiSelect
+                options={LANGUAGE_OPTIONS}
+                value={coachingLanguage}
+                onChange={setCoachingLanguage}
+                className="mt-1"
+              />
+              {coachingLanguage ? (
+                <HelpText>Selected: {coachingLanguage}</HelpText>
+              ) : (
+                <HelpText>Select the language(s) you want coaching responses in.</HelpText>
+              )}
             </div>
 
             <div>
