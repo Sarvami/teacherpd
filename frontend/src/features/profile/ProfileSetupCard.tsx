@@ -4,8 +4,89 @@ import { useMemo, useState } from 'react'
 import { Button } from '../../components/Button'
 import { Card, CardBody, CardHeader, CardTitle } from '../../components/Card'
 import { HelpText, Label, Select, TextArea, TextInput } from '../../components/Inputs'
+import { MultiSelect } from '../../components/MultiSelect'
 import { Spinner } from '../../components/Spinner'
 import type { ProfileOut, ProfileUpdate } from '../../lib/teachupTypes'
+
+// ── Controlled vocabulary ────────────────────────────────────────────────────
+// Stored as-is into the DB (comma-separated). Keeping these consistent means
+// peer matching, filtering, and analytics all work reliably.
+
+const GRADE_OPTIONS = [
+  'Pre-K',
+  'Kindergarten',
+  'Grade 1',
+  'Grade 2',
+  'Grade 3',
+  'Grade 4',
+  'Grade 5',
+  'Grade 6',
+  'Grade 7',
+  'Grade 8',
+  'Grade 9',
+  'Grade 10',
+  'Grade 11',
+  'Grade 12',
+]
+
+const SUBJECT_OPTIONS = [
+  'Mathematics',
+  'Science',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'English Language Arts',
+  'Hindi',
+  'Social Studies',
+  'History',
+  'Geography',
+  'Civics',
+  'Computer Science',
+  'Art',
+  'Music',
+  'Physical Education',
+  'Environmental Studies',
+  'Economics',
+]
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+/**
+ * Parse a stored comma-separated string back into a MultiSelect-compatible
+ * value, normalising legacy free-text entries where possible.
+ */
+function normaliseGrades(raw: string | null | undefined): string {
+  if (!raw) return ''
+  return raw
+    .split(',')
+    .map((s) => {
+      const t = s.trim()
+      // Map bare numbers like "5" or "6" → "Grade 5"
+      if (/^\d+$/.test(t)) return `Grade ${t}`
+      // Already in canonical form or unknown — keep as-is
+      return t
+    })
+    .filter(Boolean)
+    .join(', ')
+}
+
+function normaliseSubjects(raw: string | null | undefined): string {
+  if (!raw) return ''
+  return raw
+    .split(',')
+    .map((s) => {
+      const t = s.trim()
+      // Case-insensitive match against known subjects
+      const match = SUBJECT_OPTIONS.find(
+        (o) => o.toLowerCase() === t.toLowerCase(),
+      )
+      return match ?? t
+    })
+    .filter(Boolean)
+    .join(', ')
+}
+
+// ── Component ────────────────────────────────────────────────────────────────
 
 type Props = {
   busy?: boolean
@@ -25,17 +106,29 @@ export function ProfileSetupCard({
   mode = 'onboarding',
 }: Props) {
   const [name, setName] = useState(initialProfile?.name ?? initialName)
-  const [grades, setGrades] = useState(initialProfile?.grades_taught ?? '')
-  const [subjects, setSubjects] = useState(initialProfile?.subjects_taught ?? '')
+  const [grades, setGrades] = useState(
+    normaliseGrades(initialProfile?.grades_taught),
+  )
+  const [subjects, setSubjects] = useState(
+    normaliseSubjects(initialProfile?.subjects_taught),
+  )
   const [years, setYears] = useState(
-    initialProfile?.years_of_experience == null ? '' : String(initialProfile.years_of_experience),
+    initialProfile?.years_of_experience == null
+      ? ''
+      : String(initialProfile.years_of_experience),
   )
   const [school, setSchool] = useState(initialProfile?.school ?? '')
   const [state, setState] = useState(initialProfile?.state ?? '')
   const [district, setDistrict] = useState(initialProfile?.district ?? '')
-  const [instructionLanguage, setInstructionLanguage] = useState(initialProfile?.instruction_language ?? '')
-  const [challenge, setChallenge] = useState(initialProfile?.biggest_challenge ?? '')
-  const [coachingLanguage, setCoachingLanguage] = useState(initialProfile?.coaching_language ?? 'English')
+  const [instructionLanguage, setInstructionLanguage] = useState(
+    initialProfile?.instruction_language ?? '',
+  )
+  const [challenge, setChallenge] = useState(
+    initialProfile?.biggest_challenge ?? '',
+  )
+  const [coachingLanguage, setCoachingLanguage] = useState(
+    initialProfile?.coaching_language ?? 'English',
+  )
 
   const yearsValue = useMemo(() => {
     const n = years.trim() === '' ? null : Number(years)
@@ -64,7 +157,11 @@ export function ProfileSetupCard({
   const canSubmit = name.trim().length > 0 && !busy
 
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+    >
       <Card>
         <CardHeader>
           <div className="min-w-0">
@@ -72,7 +169,9 @@ export function ProfileSetupCard({
               {mode === 'edit' ? 'Profile' : 'Setup'}
             </div>
             <CardTitle className="mt-1 text-base">
-              {mode === 'edit' ? 'Edit your teaching profile' : 'Set up your teaching profile'}
+              {mode === 'edit'
+                ? 'Edit your teaching profile'
+                : 'Set up your teaching profile'}
             </CardTitle>
             <div className="mt-1 text-xs text-white/45">
               {mode === 'edit'
@@ -95,103 +194,145 @@ export function ProfileSetupCard({
 
         <CardBody className="pt-0">
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5">
+            {/* ── Step 1: Basics ─────────────────────────────────────────── */}
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
               <div className="flex items-center justify-between gap-3">
                 <div className="text-sm font-semibold text-white/90">Basics</div>
                 <div className="text-xs text-white/40">Step 1 of 2</div>
               </div>
 
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <TextInput id="name" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
-              <HelpText>Required.</HelpText>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <Label htmlFor="grades">Grades taught</Label>
+              <div className="mt-4">
+                <Label htmlFor="name">Name</Label>
                 <TextInput
-                  id="grades"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="name"
+                />
+                <HelpText>Required.</HelpText>
+              </div>
+
+              {/* Grades — multi-select pills */}
+              <div className="mt-4">
+                <Label>Grades taught</Label>
+                <MultiSelect
+                  options={GRADE_OPTIONS}
                   value={grades}
-                  onChange={(e) => setGrades(e.target.value)}
-                  placeholder="e.g. Grade 5, Grade 6"
+                  onChange={setGrades}
+                  className="mt-1"
                 />
+                {grades ? (
+                  <HelpText>Selected: {grades}</HelpText>
+                ) : (
+                  <HelpText>Tap to select one or more grades.</HelpText>
+                )}
               </div>
-              <div>
-                <Label htmlFor="subjects">Subjects taught</Label>
-                <TextInput
-                  id="subjects"
+
+              {/* Subjects — multi-select pills */}
+              <div className="mt-4">
+                <Label>Subjects taught</Label>
+                <MultiSelect
+                  options={SUBJECT_OPTIONS}
                   value={subjects}
-                  onChange={(e) => setSubjects(e.target.value)}
-                  placeholder="e.g. Mathematics, Science"
+                  onChange={setSubjects}
+                  className="mt-1"
                 />
+                {subjects ? (
+                  <HelpText>Selected: {subjects}</HelpText>
+                ) : (
+                  <HelpText>Tap to select one or more subjects.</HelpText>
+                )}
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="years">Years of experience</Label>
+                  <TextInput
+                    id="years"
+                    inputMode="numeric"
+                    value={years}
+                    onChange={(e) => setYears(e.target.value)}
+                    placeholder="e.g. 4"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="coachLang">Coaching language</Label>
+                  <Select
+                    id="coachLang"
+                    value={coachingLanguage}
+                    onChange={(e) => setCoachingLanguage(e.target.value)}
+                  >
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="Telugu">Telugu</option>
+                    <option value="Kannada">Kannada</option>
+                    <option value="Marathi">Marathi</option>
+                    <option value="Bengali">Bengali</option>
+                  </Select>
+                </div>
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <Label htmlFor="years">Years of experience</Label>
-                <TextInput id="years" inputMode="numeric" value={years} onChange={(e) => setYears(e.target.value)} />
-              </div>
-              <div>
-                <Label htmlFor="coachLang">Coaching language</Label>
-                <Select id="coachLang" value={coachingLanguage} onChange={(e) => setCoachingLanguage(e.target.value)}>
-                  <option value="English">English</option>
-                  <option value="Hindi">Hindi</option>
-                  <option value="Tamil">Tamil</option>
-                  <option value="Telugu">Telugu</option>
-                  <option value="Kannada">Kannada</option>
-                  <option value="Marathi">Marathi</option>
-                  <option value="Bengali">Bengali</option>
-                </Select>
-              </div>
-            </div>
-
-            </div>
-
+            {/* ── Step 2: Context ────────────────────────────────────────── */}
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
               <div className="flex items-center justify-between gap-3">
-                <div className="text-sm font-semibold text-white/90">Context (optional)</div>
+                <div className="text-sm font-semibold text-white/90">
+                  Context (optional)
+                </div>
                 <div className="text-xs text-white/40">Step 2 of 2</div>
               </div>
 
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <Label htmlFor="school">School (optional)</Label>
-                <TextInput id="school" value={school} onChange={(e) => setSchool(e.target.value)} />
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="school">School</Label>
+                  <TextInput
+                    id="school"
+                    value={school}
+                    onChange={(e) => setSchool(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="instructionLanguage">
+                    Instruction language
+                  </Label>
+                  <TextInput
+                    id="instructionLanguage"
+                    value={instructionLanguage}
+                    onChange={(e) => setInstructionLanguage(e.target.value)}
+                    placeholder="e.g. English"
+                  />
+                </div>
               </div>
-              <div>
-                <Label htmlFor="instructionLanguage">Instruction language (optional)</Label>
-                <TextInput
-                  id="instructionLanguage"
-                  value={instructionLanguage}
-                  onChange={(e) => setInstructionLanguage(e.target.value)}
-                  placeholder="e.g. English"
+
+              <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="state">State</Label>
+                  <TextInput
+                    id="state"
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="district">District</Label>
+                  <TextInput
+                    id="district"
+                    value={district}
+                    onChange={(e) => setDistrict(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <Label htmlFor="challenge">Biggest challenge</Label>
+                <TextArea
+                  id="challenge"
+                  value={challenge}
+                  onChange={(e) => setChallenge(e.target.value)}
+                  placeholder="Describe what's happening and what you've already tried."
                 />
               </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <Label htmlFor="state">State (optional)</Label>
-                <TextInput id="state" value={state} onChange={(e) => setState(e.target.value)} />
-              </div>
-              <div>
-                <Label htmlFor="district">District (optional)</Label>
-                <TextInput id="district" value={district} onChange={(e) => setDistrict(e.target.value)} />
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <Label htmlFor="challenge">Biggest challenge (optional)</Label>
-              <TextArea
-                id="challenge"
-                value={challenge}
-                onChange={(e) => setChallenge(e.target.value)}
-                placeholder="Describe what’s happening and what you’ve already tried."
-              />
-            </div>
-
             </div>
 
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -203,7 +344,9 @@ export function ProfileSetupCard({
                 type="submit"
                 variant="primary"
                 disabled={!canSubmit}
-                leftIcon={busy ? <Spinner /> : <ArrowRight className="h-4 w-4" />}
+                leftIcon={
+                  busy ? <Spinner /> : <ArrowRight className="h-4 w-4" />
+                }
               >
                 {mode === 'edit' ? 'Save changes' : 'Save profile'}
               </Button>

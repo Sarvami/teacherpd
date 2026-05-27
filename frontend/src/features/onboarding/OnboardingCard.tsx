@@ -3,9 +3,47 @@ import { ArrowRight, UserPlus } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Button } from '../../components/Button'
 import { Card, CardBody, CardHeader, CardTitle } from '../../components/Card'
-import { HelpText, Label, Select, TextArea, TextInput } from '../../components/Inputs'
+import { HelpText, Label, Select, TextArea } from '../../components/Inputs'
+import { MultiSelect } from '../../components/MultiSelect'
 import { Spinner } from '../../components/Spinner'
 import type { TeacherCreate, TeacherOut } from '../../lib/types'
+
+const GRADE_OPTIONS = [
+  'Pre-K',
+  'Kindergarten',
+  'Grade 1',
+  'Grade 2',
+  'Grade 3',
+  'Grade 4',
+  'Grade 5',
+  'Grade 6',
+  'Grade 7',
+  'Grade 8',
+  'Grade 9',
+  'Grade 10',
+  'Grade 11',
+  'Grade 12',
+]
+
+const SUBJECT_OPTIONS = [
+  'Mathematics',
+  'Science',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'English Language Arts',
+  'Hindi',
+  'Social Studies',
+  'History',
+  'Geography',
+  'Civics',
+  'Computer Science',
+  'Art',
+  'Music',
+  'Physical Education',
+  'Environmental Studies',
+  'Economics',
+]
 
 type Props = {
   busy?: boolean
@@ -61,46 +99,59 @@ export function OnboardingCard({ busy, onCreate }: Props) {
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
             <div>
               <Label htmlFor="name">Name</Label>
-              <TextInput
+              <input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Asha Singh"
                 autoComplete="name"
+                className="h-11 w-full rounded-xl bg-slate-900/45 px-3 text-sm text-white/90 ring-1 ring-white/10 outline-none transition placeholder:text-white/30 hover:ring-white/15 focus:ring-2 focus:ring-white/25"
               />
               <HelpText>Required.</HelpText>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <Label htmlFor="grades">Grades taught</Label>
-                <TextInput
-                  id="grades"
-                  value={grades}
-                  onChange={(e) => setGrades(e.target.value)}
-                  placeholder="e.g. Grade 5, Grade 6"
-                />
-              </div>
-              <div>
-                <Label htmlFor="subjects">Subjects taught</Label>
-                <TextInput
-                  id="subjects"
-                  value={subjects}
-                  onChange={(e) => setSubjects(e.target.value)}
-                  placeholder="e.g. Mathematics, Science"
-                />
-              </div>
+            {/* Grades — multi-select pills */}
+            <div>
+              <Label>Grades taught</Label>
+              <MultiSelect
+                options={GRADE_OPTIONS}
+                value={grades}
+                onChange={setGrades}
+                className="mt-1"
+              />
+              {grades ? (
+                <HelpText>Selected: {grades}</HelpText>
+              ) : (
+                <HelpText>Tap to select one or more grades.</HelpText>
+              )}
+            </div>
+
+            {/* Subjects — multi-select pills */}
+            <div>
+              <Label>Subjects taught</Label>
+              <MultiSelect
+                options={SUBJECT_OPTIONS}
+                value={subjects}
+                onChange={setSubjects}
+                className="mt-1"
+              />
+              {subjects ? (
+                <HelpText>Selected: {subjects}</HelpText>
+              ) : (
+                <HelpText>Tap to select one or more subjects.</HelpText>
+              )}
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <Label htmlFor="years">Years of experience</Label>
-                <TextInput
+                <input
                   id="years"
                   inputMode="numeric"
                   value={years}
                   onChange={(e) => setYears(e.target.value)}
                   placeholder="e.g. 4"
+                  className="h-11 w-full rounded-xl bg-slate-900/45 px-3 text-sm text-white/90 ring-1 ring-white/10 outline-none transition placeholder:text-white/30 hover:ring-white/15 focus:ring-2 focus:ring-white/25"
                 />
               </div>
               <div>
@@ -127,7 +178,7 @@ export function OnboardingCard({ busy, onCreate }: Props) {
                 id="challenge"
                 value={challenge}
                 onChange={(e) => setChallenge(e.target.value)}
-                placeholder="Describe what’s happening and what you’ve already tried."
+                placeholder="Describe what's happening and what you've already tried."
               />
             </div>
 
