@@ -6,21 +6,24 @@ import {
   useSpring,
 } from 'framer-motion'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { LogOut, PencilLine } from 'lucide-react'
+import { LogOut, MessageSquare, PencilLine, Users } from 'lucide-react'
 import { Toasts } from './components/Toast'
 import { apiFetch } from './lib/api'
 import { useToasts } from './app/useToasts'
 import { AuthCard } from './features/auth/AuthCard'
 import { TeachUpChat } from './features/chat/TeachUpChat'
+import { InsightsPanel } from './features/insights/InsightsPanel'
 import { ProfileSetupCard } from './features/profile/ProfileSetupCard'
 import { clearAuth, loadAccessToken, loadUser, saveAccessToken, saveUser } from './lib/teachupAuth'
 import { getProfile, login, logout, me, putProfile, register } from './lib/teachupApi'
 import type { ProfileOut } from './lib/teachupTypes'
-import type { HealthResponse } from './lib/types'
+import type { HealthResponse, MatchResponse, SessionOut, TeacherOut } from './lib/types'
 import { Button } from './components/Button'
 import { Badge } from './components/Badge'
+import { cn } from './lib/cn'
 
 type HealthState = 'ok' | 'down' | 'unknown'
+type Tab = 'chat' | 'peers'
 
 export default function App() {
   const appName = 'TeachUp'
@@ -41,11 +44,20 @@ export default function App() {
   const [accessToken, setAccessToken] = useState(() => loadAccessToken())
   const [profile, setProfile] = useState<ProfileOut | null>(null)
   const [editingProfile, setEditingProfile] = useState(false)
+
+  // Tab state
+  const [activeTab, setActiveTab] = useState<Tab>('chat')
+
+  // Peers & History state
+  const [sessions, setSessions] = useState<SessionOut[] | undefined>(undefined)
+  const [matches, setMatches] = useState<MatchResponse | null>(null)
+  const [busyInsights, setBusyInsights] = useState(false)
+
   const anyBusy = busyAuth || busyProfile
 
+  // ── Auth init ──────────────────────────────────────────────────────────────
   useEffect(() => {
     let alive = true
-
     async function init() {
       const token = loadAccessToken()
       if (!token) return
@@ -55,14 +67,12 @@ export default function App() {
         setAuthedUser(u)
         saveUser(u)
         setAccessToken(token)
-
-        // Attempt to load profile (may be 404 for new users)
         try {
           const p = await getProfile()
           if (!alive) return
           setProfile(p)
         } catch {
-          // ignore
+          // new user — no profile yet
         }
       } catch {
         clearAuth()
@@ -73,14 +83,11 @@ export default function App() {
         setEditingProfile(false)
       }
     }
-
     void init()
-
-    return () => {
-      alive = false
-    }
+    return () => { alive = false }
   }, [])
 
+  // ── Health polling ─────────────────────────────────────────────────────────
   useEffect(() => {
     let alive = true
     const tick = async () => {
@@ -95,20 +102,40 @@ export default function App() {
     }
     void tick()
     const id = window.setInterval(tick, 7000)
-    return () => {
-      alive = false
-      window.clearInterval(id)
-    }
+    return () => { alive = false; window.clearInterval(id) }
   }, [])
 
-  const title = useMemo(() => {
-    return authedUser ? `${appName} • ${authedUser.name}` : appName
-  }, [appName, authedUser])
+  // ── Document title ─────────────────────────────────────────────────────────
+  const title = useMemo(
+    () => (authedUser ? `${appName} • ${authedUser.name}` : appName),
+    [appName, authedUser],
+  )
+  useEffect(() => { document.title = title }, [title])
 
+  // ── Insights (peers + sessions) ────────────────────────────────────────────
+  async function loadInsights(teacherId: number) {
+    setBusyInsights(true)
+    try {
+      const [sessRes, matchRes] = await Promise.allSettled([
+        apiFetch<SessionOut[]>(`/sessions/${teacherId}?limit=20`),
+        apiFetch<MatchResponse>(`/match-peer/${teacherId}?top_n=5`),
+      ])
+      setSessions(sessRes.status === 'fulfilled' ? sessRes.value : [])
+      setMatches(matchRes.status === 'fulfilled' ? matchRes.value : null)
+    } finally {
+      setBusyInsights(false)
+    }
+  }
+
+  // Load insights automatically when the Peers tab is first opened
+  const peersTabOpened = activeTab === 'peers' && profile
   useEffect(() => {
-    document.title = title
-  }, [title])
+    if (peersTabOpened && sessions === undefined && !busyInsights) {
+      void loadInsights(profile!.teacher_id)
+    }
+  }, [peersTabOpened])
 
+  // ── Auth handlers ──────────────────────────────────────────────────────────
   async function handleLogin(payload: { email: string; password: string }) {
     setBusyAuth(true)
     try {
@@ -118,7 +145,6 @@ export default function App() {
       setAccessToken(res.token)
       setAuthedUser(res.user)
       toasts.push({ tone: 'good', title: 'Signed in', message: `Welcome back, ${res.user.name}.` })
-
       try {
         const p = await getProfile()
         setProfile(p)
@@ -168,60 +194,63 @@ export default function App() {
   }
 
   async function handleLogout() {
-    try {
-      await logout()
-    } catch {
-      // best-effort
-    }
+    try { await logout() } catch { /* best-effort */ }
     clearAuth()
     setAuthedUser(null)
     setAccessToken(null)
     setProfile(null)
     setEditingProfile(false)
+    setSessions(undefined)
+    setMatches(null)
+    setActiveTab('chat')
     toasts.push({ tone: 'neutral', title: 'Signed out', message: 'See you next time.' })
   }
 
+  // ── Pointer glow ───────────────────────────────────────────────────────────
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       if (reduceMotion) return
-      const vw = window.innerWidth || 1
-      const vh = window.innerHeight || 1
-      const x = Math.max(0, Math.min(100, (e.clientX / vw) * 100))
-      const y = Math.max(0, Math.min(100, (e.clientY / vh) * 100))
-      bgX.set(x)
-      bgY.set(y)
+      bgX.set(Math.max(0, Math.min(100, (e.clientX / (window.innerWidth || 1)) * 100)))
+      bgY.set(Math.max(0, Math.min(100, (e.clientY / (window.innerHeight || 1)) * 100)))
     },
     [bgX, bgY, reduceMotion],
   )
-
   const handlePointerLeave = useCallback(() => {
     if (reduceMotion) return
-    bgX.set(30)
-    bgY.set(10)
+    bgX.set(30); bgY.set(10)
   }, [bgX, bgY, reduceMotion])
 
+  // ── Derived ────────────────────────────────────────────────────────────────
   const healthText =
-    health === 'ok'
-      ? 'API online'
-      : health === 'down'
-        ? 'API offline — start the backend'
-        : 'Checking API…'
+    health === 'ok' ? 'API online'
+    : health === 'down' ? 'API offline — start the backend'
+    : 'Checking API…'
 
   const healthDotClass =
-    health === 'ok'
-      ? 'bg-emerald-400/90'
-      : health === 'down'
-        ? 'bg-rose-400/90'
-        : 'bg-amber-300/90'
+    health === 'ok' ? 'bg-emerald-400/90'
+    : health === 'down' ? 'bg-rose-400/90'
+    : 'bg-amber-300/90'
 
-  const apiBase = (import.meta.env.VITE_API_BASE_URL as string | undefined) || 'http://localhost:8000'
+  // Build a TeacherOut-shaped object from the logged-in profile for InsightsPanel
+  const teacherOut: TeacherOut | null = profile
+    ? {
+        id: profile.teacher_id,
+        name: profile.name,
+        grades_taught: profile.grades_taught ?? undefined,
+        subjects_taught: profile.subjects_taught ?? undefined,
+        school: profile.school ?? undefined,
+        years_of_experience: profile.years_of_experience ?? undefined,
+      }
+    : null
 
+  // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div
       className="min-h-screen bg-slate-950 text-slate-50"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
     >
+      {/* Background glow */}
       <motion.div className="pointer-events-none fixed inset-0" style={{ background: glowA }} />
       <div aria-hidden className="pointer-events-none fixed inset-0">
         <div className="absolute -left-40 -top-48 h-[520px] w-[520px] rounded-full bg-gradient-to-br from-sky-500/18 to-violet-500/14 blur-3xl" />
@@ -234,6 +263,8 @@ export default function App() {
       <Toasts items={toasts.items} onDismiss={toasts.dismiss} />
 
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6">
+
+        {/* ── Header ──────────────────────────────────────────────────────── */}
         <motion.header
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -253,33 +284,25 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            {/* API health pill */}
             <motion.div
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.22, delay: 0.06 }}
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60 backdrop-blur"
-              title={`API base: ${apiBase}`}
             >
               <motion.span
                 aria-hidden
                 className={`h-2 w-2 rounded-full ${healthDotClass}`}
                 animate={
-                  reduceMotion
-                    ? undefined
-                    : health === 'unknown'
-                      ? { opacity: [0.25, 0.8, 0.25], scale: [1, 1.25, 1] }
-                      : health === 'down'
-                        ? { opacity: [0.25, 0.35, 0.25] }
-                        : { opacity: 0.75 }
+                  reduceMotion ? undefined
+                  : health === 'unknown' ? { opacity: [0.25, 0.8, 0.25], scale: [1, 1.25, 1] }
+                  : health === 'down' ? { opacity: [0.25, 0.35, 0.25] }
+                  : { opacity: 0.75 }
                 }
                 transition={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        duration: health === 'unknown' ? 1.2 : 2.0,
-                        repeat: health === 'unknown' || health === 'down' ? Infinity : 0,
-                        ease: 'easeInOut',
-                      }
+                  reduceMotion ? undefined
+                  : { duration: health === 'unknown' ? 1.2 : 2.0, repeat: health !== 'ok' ? Infinity : 0, ease: 'easeInOut' }
                 }
               />
               <span>{healthText}</span>
@@ -288,7 +311,7 @@ export default function App() {
             {authedUser && accessToken ? (
               <div className="flex items-center gap-2">
                 <Badge tone="neutral" className="hidden md:inline-flex">
-                  Signed in as {authedUser.name}
+                  {authedUser.name}
                 </Badge>
                 {profile ? (
                   <Button
@@ -313,16 +336,20 @@ export default function App() {
           </div>
         </motion.header>
 
+        {/* ── Main content ─────────────────────────────────────────────────── */}
         <motion.main
-          key={authedUser ? (profile ? 'chat' : 'profile') : 'auth'}
+          key={authedUser ? (profile && !editingProfile ? 'app' : 'setup') : 'auth'}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.26, ease: 'easeOut' }}
         >
+          {/* Not logged in */}
           {!authedUser || !accessToken ? (
             <div className="mx-auto w-full max-w-5xl">
               <AuthCard busy={busyAuth} onLogin={handleLogin} onRegister={handleRegister} />
             </div>
+
+          /* Profile setup / edit */
           ) : !profile || editingProfile ? (
             <div className="mx-auto w-full max-w-4xl">
               <ProfileSetupCard
@@ -334,47 +361,66 @@ export default function App() {
                 mode={editingProfile ? 'edit' : 'onboarding'}
               />
             </div>
+
+          /* Main app — tabbed layout */
           ) : (
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-              <div className="lg:col-span-4">
-                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-                  <div aria-hidden className="pointer-events-none absolute inset-0">
-                    <div className="absolute -top-24 left-10 h-56 w-56 rounded-full bg-gradient-to-br from-sky-500/12 to-violet-500/10 blur-2xl" />
-                    <div className="absolute -bottom-24 -right-20 h-56 w-56 rounded-full bg-gradient-to-tr from-fuchsia-500/10 to-cyan-400/8 blur-2xl" />
+            <div className="flex flex-col gap-4">
+
+              {/* Profile summary bar */}
+              <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
+                <div className="flex min-w-0 flex-1 items-center gap-3">
+                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/10 text-sm font-semibold text-white/80 ring-1 ring-white/10">
+                    {profile.name.trim().slice(0, 1).toUpperCase()}
                   </div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-                    Profile
-                  </div>
-                  <div className="mt-1 text-base font-semibold tracking-tight">{profile.name}</div>
-                  <div className="mt-1 text-xs text-white/45">Teacher profile #{profile.teacher_id}</div>
-                  <div className="mt-4 grid grid-cols-1 gap-2 text-xs text-white/60">
-                    {profile.grades_taught ? <div>Grades: {profile.grades_taught}</div> : null}
-                    {profile.subjects_taught ? <div>Subjects: {profile.subjects_taught}</div> : null}
-                    {profile.school ? <div>School: {profile.school}</div> : null}
-                  </div>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={() => setEditingProfile(true)}
-                      leftIcon={<PencilLine className="h-4 w-4" />}
-                    >
-                      Edit profile
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={handleLogout}
-                      leftIcon={<LogOut className="h-4 w-4" />}
-                    >
-                      Sign out
-                    </Button>
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-semibold text-white/90">{profile.name}</div>
+                    <div className="mt-0.5 truncate text-xs text-white/45">
+                      {[profile.grades_taught, profile.subjects_taught].filter(Boolean).join(' · ') || 'No grades or subjects set'}
+                    </div>
                   </div>
                 </div>
+                {profile.school ? (
+                  <div className="hidden text-xs text-white/40 sm:block">{profile.school}</div>
+                ) : null}
               </div>
-              <div className="lg:col-span-8">
-                <TeachUpChat teacherName={profile.name} systemContext="general" />
+
+              {/* Tab bar */}
+              <div className="flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 p-1 backdrop-blur">
+                <TabButton
+                  active={activeTab === 'chat'}
+                  onClick={() => setActiveTab('chat')}
+                  icon={<MessageSquare className="h-4 w-4" />}
+                  label="AI Coaching Studio"
+                />
+                <TabButton
+                  active={activeTab === 'peers'}
+                  onClick={() => setActiveTab('peers')}
+                  icon={<Users className="h-4 w-4" />}
+                  label="Peers & History"
+                  badge={matches?.matches?.length}
+                />
               </div>
+
+              {/* Tab panels */}
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+              >
+                {activeTab === 'chat' ? (
+                  <TeachUpChat teacherName={profile.name} systemContext="general" />
+                ) : teacherOut ? (
+                  <InsightsPanel
+                    teacher={teacherOut}
+                    sessions={sessions}
+                    matches={matches}
+                    busy={busyInsights}
+                    onRefresh={() => loadInsights(profile.teacher_id)}
+                  />
+                ) : null}
+              </motion.div>
+
             </div>
           )}
         </motion.main>
@@ -385,5 +431,42 @@ export default function App() {
         </footer>
       </div>
     </div>
+  )
+}
+
+// ── Tab button ───────────────────────────────────────────────────────────────
+
+function TabButton({
+  active,
+  onClick,
+  icon,
+  label,
+  badge,
+}: {
+  active: boolean
+  onClick: () => void
+  icon: React.ReactNode
+  label: string
+  badge?: number
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        'relative flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition',
+        active
+          ? 'bg-white/10 text-white shadow-sm ring-1 ring-white/15'
+          : 'text-white/50 hover:bg-white/5 hover:text-white/75',
+      )}
+    >
+      {icon}
+      <span>{label}</span>
+      {badge != null && badge > 0 ? (
+        <span className="ml-1 rounded-full bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-300 ring-1 ring-emerald-500/30">
+          {badge}
+        </span>
+      ) : null}
+    </button>
   )
 }
