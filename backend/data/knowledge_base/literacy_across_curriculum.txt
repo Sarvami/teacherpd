@@ -1,0 +1,121 @@
+Literacy Across the Curriculum
+
+Literacy is not only the responsibility of English teachers. Every subject has its own disciplinary literacy — the reading, writing, and communication practices specific to that field. Teaching students to read and write like historians, scientists, mathematicians, and artists is a core part of subject teaching.
+
+---
+
+Disciplinary Literacy
+
+Each discipline has characteristic text types, vocabulary, and ways of constructing knowledge:
+
+Science:
+- Lab reports, scientific articles, data tables, graphs
+- Passive voice, hedging language ("the results suggest...")
+- Precision and operational definitions
+
+History:
+- Primary sources, secondary analyses, timelines, historiographical essays
+- Sourcing (who wrote this, when, and why?), corroboration, contextualisation
+- Argument supported by evidence, acknowledgement of counterarguments
+
+Mathematics:
+- Word problems, proofs, worked examples
+- Precise technical vocabulary (e.g., "factor" means something specific)
+- Reading left-to-right AND right-to-left (equations), reading diagrams
+
+The Arts:
+- Artist statements, critical reviews, programme notes
+- Evaluative and interpretive language
+- Connecting personal response to technical analysis
+
+---
+
+Vocabulary Instruction
+
+Vocabulary knowledge is one of the strongest predictors of reading comprehension and academic achievement. Three tiers of vocabulary (Beck, McKeown & Kucan):
+
+Tier 1: Everyday words (table, run, happy) — rarely need explicit instruction
+Tier 2: Academic vocabulary used across subjects (analyse, significant, contrast, evidence) — high instructional priority
+Tier 3: Subject-specific technical terms (mitosis, isosceles, impressionism) — taught within the subject
+
+Effective vocabulary instruction:
+- Introduce words in context, not as isolated definitions
+- Use multiple exposures across different contexts
+- Encourage students to use new words in speaking and writing
+- Word walls, vocabulary notebooks, and semantic mapping support retention
+- Avoid asking students to copy dictionary definitions — this rarely leads to deep understanding
+
+---
+
+Reading Comprehension Strategies
+
+Explicit comprehension strategy instruction improves reading outcomes, particularly for struggling readers.
+
+Key strategies:
+- Activating prior knowledge: Before reading, ask "What do you already know about this topic?"
+- Predicting: "What do you think will happen next? What clues in the text support your prediction?"
+- Visualising: "Draw or describe the scene/process in your mind"
+- Questioning: Students generate their own questions as they read
+- Clarifying: Identifying and resolving confusion ("I don't understand this word/sentence — what can I do?")
+- Summarising: Identifying the main idea and key supporting details
+- Making connections: Text-to-self, text-to-text, text-to-world
+
+Reciprocal teaching (Palincsar & Brown) combines predicting, questioning, clarifying, and summarising in a structured peer-led format that has strong research support.
+
+---
+
+Writing to Learn
+
+Writing is not only a product — it is a tool for thinking. Writing-to-learn activities help students process and consolidate understanding.
+
+Low-stakes writing activities:
+- Exit tickets: "Write one thing you learned today and one question you still have"
+- Admit slips: "Write what you remember from last lesson before we begin"
+- Quick writes: 3–5 minutes of uninterrupted writing on a prompt
+- Learning logs or journals: Regular reflective writing about the learning process
+- Concept maps: Visual representations of relationships between ideas
+
+These activities are not graded for correctness — they are thinking tools. The teacher reads them to gauge understanding and plan next steps.
+
+---
+
+Academic Writing Development
+
+Moving students from informal to formal academic writing requires explicit instruction in:
+
+Structure:
+- Paragraph structure (topic sentence, evidence, explanation, link)
+- Essay structure (introduction with thesis, body paragraphs, conclusion)
+- Discipline-specific structures (lab report, historical essay, literary analysis)
+
+Language features:
+- Formal register (avoiding contractions, colloquialisms)
+- Hedging and qualifying language ("This suggests..." rather than "This proves...")
+- Cohesive devices (however, therefore, in contrast, as a result)
+- Nominalisation (turning verbs into nouns: "investigate" → "investigation")
+
+Feedback on writing:
+- Focus feedback on one or two priorities per draft, not everything at once
+- Use a rubric so students know what is being assessed
+- Peer feedback with structured protocols is as effective as teacher feedback for many aspects of writing
+- Require students to respond to feedback in a revision — otherwise feedback is often ignored
+
+---
+
+Supporting English Language Learners in Literacy
+
+ELL students face the dual challenge of learning content and language simultaneously.
+
+Strategies:
+- Pre-teach key vocabulary before reading
+- Provide bilingual glossaries and translated key texts where possible
+- Use graphic organisers to scaffold reading and writing tasks
+- Allow students to draft in their home language first, then translate
+- Pair ELL students with bilingual peers for discussion tasks
+- Celebrate multilingualism: encourage students to make connections between English and their home language
+
+BICS vs. CALP (Cummins):
+- Basic Interpersonal Communication Skills (BICS): Conversational fluency, typically acquired in 1–2 years
+- Cognitive Academic Language Proficiency (CALP): Academic language needed for school success, typically takes 5–7 years to develop
+
+A student who speaks fluent conversational English may still struggle significantly with academic texts. Teachers should not assume conversational fluency means academic readiness.

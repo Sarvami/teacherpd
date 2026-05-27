@@ -1,0 +1,109 @@
+Student Motivation: Theory and Practice
+
+Understanding why students engage — or disengage — is foundational to effective teaching. Motivation is not a fixed trait students either have or lack; it is a dynamic state that teachers can significantly influence.
+
+---
+
+Self-Determination Theory (Deci & Ryan)
+
+Self-Determination Theory (SDT) identifies three basic psychological needs that, when met, support intrinsic motivation:
+
+1. Autonomy: The need to feel that one's actions are self-chosen and self-endorsed. Students who feel controlled (by rewards, threats, or rigid structures) tend to disengage or comply superficially.
+
+2. Competence: The need to feel effective and capable. Students who consistently experience failure or tasks that are too easy both disengage — one from frustration, the other from boredom.
+
+3. Relatedness: The need to feel connected to others. Students who feel unseen, unwelcome, or disconnected from their teacher and peers are less likely to invest in learning.
+
+Classroom implications:
+- Offer genuine choices (not just cosmetic ones) in how students learn and demonstrate understanding.
+- Design tasks in the "zone of proximal development" — challenging but achievable with effort.
+- Build relationships deliberately: learn students' names quickly, show interest in their lives, and create a classroom culture of belonging.
+
+---
+
+Growth Mindset (Dweck)
+
+Carol Dweck's research distinguishes between a fixed mindset (intelligence is innate and unchangeable) and a growth mindset (intelligence can be developed through effort and strategy).
+
+Students with a fixed mindset:
+- Avoid challenges to protect their self-image
+- Give up quickly when they encounter difficulty
+- See effort as a sign of low ability
+- Feel threatened by others' success
+
+Students with a growth mindset:
+- Embrace challenges as opportunities to grow
+- Persist through difficulty
+- See effort as the path to mastery
+- Learn from feedback and others' success
+
+How teachers can cultivate growth mindset:
+- Praise effort, strategy, and process — not intelligence or talent ("You worked really hard on that" rather than "You're so smart")
+- Normalise struggle: "This is supposed to be hard — that's how we know our brains are growing"
+- Share stories of famous failures and perseverance
+- Use "not yet" language: instead of a failing grade, a grade of "not yet" signals that mastery is achievable
+
+---
+
+Expectancy-Value Theory (Eccles)
+
+Students are motivated to engage in a task when they believe:
+1. They can succeed (expectancy), AND
+2. The task is worth doing (value)
+
+Value has four components:
+- Intrinsic value: Enjoyment of the task itself
+- Utility value: Usefulness for future goals
+- Attainment value: Importance to one's identity
+- Cost: What must be given up to engage (time, effort, social risk)
+
+Classroom implications:
+- Make the relevance of learning explicit: "We're learning this because..."
+- Connect content to students' lives, interests, and aspirations
+- Reduce the perceived cost of participation (psychological safety, no-penalty drafts)
+
+---
+
+Extrinsic vs. Intrinsic Motivation
+
+Extrinsic motivators (stickers, prizes, grades, praise) can be effective in the short term but can undermine intrinsic motivation if overused. This is known as the "overjustification effect."
+
+Research-informed guidance:
+- Use extrinsic rewards for tasks students find genuinely uninteresting, not for tasks they already enjoy
+- Shift from controlling rewards ("If you do this, you'll get that") to informational feedback ("You've really improved your use of evidence in this essay")
+- Grades are a reality of schooling, but framing them as information rather than judgement reduces their demotivating effects
+
+---
+
+Engagement vs. Compliance
+
+A student can be compliant (quiet, on-task, producing work) without being genuinely engaged. Genuine engagement involves:
+- Cognitive engagement: Active thinking, making connections, asking questions
+- Emotional engagement: Interest, curiosity, a sense of belonging
+- Behavioural engagement: Participation, effort, persistence
+
+Signs of compliance masquerading as engagement:
+- Students complete tasks but cannot explain their reasoning
+- Students ask "Is this right?" rather than "Does this make sense?"
+- Students stop working the moment the teacher moves away
+
+Strategies to move from compliance to engagement:
+- Ask students to explain their thinking, not just produce answers
+- Create tasks with genuine intellectual challenge and ambiguity
+- Give students an audience beyond the teacher (peers, community, publication)
+
+---
+
+Culturally Responsive Motivation
+
+Motivation is not culturally neutral. What counts as "engaging" or "motivating" varies across cultural contexts.
+
+- Some students come from cultures that value collective achievement over individual recognition — public praise may feel uncomfortable
+- Competition-based motivation strategies may alienate students from cooperative cultural backgrounds
+- Connecting learning to community and family contexts can be powerfully motivating for students whose cultures emphasise interdependence
+
+Practical steps:
+- Learn about your students' cultural backgrounds and values
+- Offer both individual and collaborative modes of participation
+- Celebrate community and group achievements alongside individual ones
+- Invite students to bring their cultural knowledge into the classroom as a resource

@@ -1,0 +1,100 @@
+Questioning Techniques in the Classroom
+
+Questioning is one of the most powerful tools a teacher has. Research by Hattie (Visible Learning) places teacher questioning in the top third of influences on student achievement when used well. The key is moving beyond recall toward higher-order thinking.
+
+Bloom's Taxonomy and Questioning
+
+Bloom's Taxonomy provides a useful framework for designing questions at different cognitive levels:
+
+- Remembering: "What is the definition of photosynthesis?"
+- Understanding: "Can you explain photosynthesis in your own words?"
+- Applying: "How would a plant respond if it were placed in a dark room for a week?"
+- Analysing: "What are the differences between photosynthesis and cellular respiration?"
+- Evaluating: "Which factor do you think most limits photosynthesis in urban environments, and why?"
+- Creating: "Design an experiment to test how light intensity affects the rate of photosynthesis."
+
+Most classroom questions sit at the remembering and understanding levels. Deliberately planning two or three higher-order questions per lesson shifts the cognitive demand significantly.
+
+---
+
+Wait Time
+
+Research by Mary Budd Rowe found that most teachers wait less than one second after asking a question before calling on a student or rephrasing. Extending wait time to 3–5 seconds produces measurable improvements:
+- Longer and more complete student responses
+- More students volunteering to answer
+- Higher-quality reasoning in responses
+- Increased participation from quieter students
+
+Practical strategies:
+- Say "Take 30 seconds to think before you answer."
+- Ask students to write their answer before sharing.
+- Use a "no hands up" approach — select students randomly or systematically.
+
+---
+
+Cold Calling vs. Hands Up
+
+Hands-up questioning creates a two-tier classroom: confident students dominate, while others disengage knowing they won't be called on. Research supports moving toward equitable questioning practices.
+
+Alternatives to hands-up:
+- Random selection (lolly sticks, random name generators)
+- Targeted questioning: deliberately calling on students who haven't spoken recently
+- "Phone a friend": a student can nominate a peer to help answer
+- Whole-class response: mini whiteboards, response cards, or digital polls
+
+The goal is not to put students on the spot but to create a culture where thinking is expected from everyone.
+
+---
+
+Socratic Seminars
+
+A Socratic seminar is a structured discussion in which students explore a complex text or question together. The teacher's role shifts from instructor to facilitator.
+
+Key features:
+- An open-ended, genuinely debatable question
+- Students speak to each other, not just to the teacher
+- The teacher asks probing follow-up questions rather than evaluating responses
+- Students are expected to cite evidence from the text
+
+Preparation is essential: students need to have read and annotated the text beforehand. A brief debrief after the seminar helps students reflect on both the content and the quality of the discussion.
+
+---
+
+Accountable Talk
+
+Accountable talk (Michaels, O'Connor & Resnick) is a framework for productive classroom discussion. It has three dimensions:
+
+1. Accountability to the learning community: Students listen to each other, build on each other's ideas, and challenge each other respectfully.
+2. Accountability to accurate knowledge: Claims are supported with evidence.
+3. Accountability to rigorous thinking: Reasoning is made explicit and examined.
+
+Sentence starters that support accountable talk:
+- "I agree with ___ because..."
+- "I want to add to what ___ said..."
+- "I respectfully disagree because..."
+- "Can you give evidence for that?"
+- "I'm not sure I understand — can you explain what you mean by...?"
+
+Teaching these phrases explicitly and practising them in low-stakes contexts builds the habits of mind needed for genuine intellectual discourse.
+
+---
+
+Questioning for Formative Assessment
+
+Questions can be used strategically to check for understanding in real time.
+
+Hinge questions: A single multiple-choice question placed at a critical juncture in the lesson. Each wrong answer is designed to reveal a specific misconception. The teacher uses the pattern of responses to decide whether to move on, reteach, or address a specific misconception.
+
+Example (fractions):
+"Which of these is equivalent to 3/4?"
+a) 6/9  b) 9/12  c) 12/15  d) 6/8
+
+Students who choose (a) likely think you multiply numerator and denominator by the same number. Students who choose (c) may be adding 3 to both numerator and denominator. Each wrong answer points to a different instructional response.
+
+Probing questions during independent work:
+- "How did you decide to start it that way?"
+- "What would happen if you changed this number?"
+- "Is there another way you could solve this?"
+- "Where did you get stuck, and what did you try?"
+
+These questions surface thinking that written work alone cannot reveal.

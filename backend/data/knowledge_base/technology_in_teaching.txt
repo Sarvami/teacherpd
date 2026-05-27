@@ -1,0 +1,123 @@
+Technology Integration in Teaching
+
+Technology is a tool, not a pedagogy. The question is never "should we use technology?" but "does this technology serve the learning goal better than the alternative?" Effective technology integration is purposeful, not performative.
+
+---
+
+The SAMR Model (Puentedura)
+
+SAMR describes four levels of technology integration:
+
+Substitution: Technology replaces a traditional tool with no functional change.
+Example: Students type an essay instead of handwriting it.
+
+Augmentation: Technology replaces a traditional tool with some functional improvement.
+Example: Students use spell-check and grammar tools while typing.
+
+Modification: Technology allows significant task redesign.
+Example: Students collaborate on a shared document in real time, leaving comments for each other.
+
+Transformation: Technology allows for tasks that were previously inconceivable.
+Example: Students publish a podcast for a real audience, receive comments from listeners worldwide, and iterate based on feedback.
+
+Most classroom technology use sits at substitution or augmentation. The goal is not always to reach transformation — sometimes substitution is appropriate — but teachers should be intentional about which level they are operating at and why.
+
+---
+
+The TPACK Framework
+
+TPACK (Technological Pedagogical Content Knowledge) describes the intersection of three knowledge domains:
+
+- Content Knowledge (CK): What you teach
+- Pedagogical Knowledge (PK): How you teach
+- Technological Knowledge (TK): What tools are available
+
+Effective technology integration requires all three working together. A teacher who knows the technology but not the pedagogy will use it poorly. A teacher who knows the content and pedagogy but not the technology will miss opportunities.
+
+---
+
+Formative Assessment Technology
+
+Digital tools can make formative assessment faster and more equitable:
+
+Polling tools (Mentimeter, Kahoot, Poll Everywhere):
+- All students respond simultaneously — no hands-up bias
+- Results are visible immediately, allowing real-time instructional adjustment
+- Can be anonymous, reducing the social risk of being wrong
+
+Exit ticket platforms (Google Forms, Padlet, Nearpod):
+- Students submit responses digitally at the end of class
+- Teacher reviews responses before the next lesson to plan differentiation
+- Creates a record of student thinking over time
+
+Collaborative documents (Google Docs, Microsoft 365):
+- Real-time peer feedback and collaboration
+- Teacher can observe student thinking as it develops
+- Version history allows teachers to see the process, not just the product
+
+---
+
+Blended Learning Models
+
+Blended learning combines face-to-face instruction with online learning in a structured way.
+
+Station rotation: Students rotate between stations, one of which involves independent online learning. The teacher works with small groups at another station.
+
+Flipped classroom: Students watch instructional videos at home; class time is used for practice, discussion, and application. This model works best when students have reliable home internet access — equity must be considered.
+
+Flex model: Students move through content at their own pace online; the teacher provides targeted support as needed.
+
+Research on blended learning is mixed. The key variable is not the technology but the quality of the instructional design and the teacher's ability to use data from the online component to inform face-to-face instruction.
+
+---
+
+Digital Citizenship and Online Safety
+
+Teaching students to be responsible, ethical, and safe online is part of the modern teacher's role.
+
+Key digital citizenship concepts:
+- Digital footprint: Everything posted online is potentially permanent and public
+- Copyright and fair use: Understanding what can be shared, remixed, and attributed
+- Online communication: Tone, empathy, and the permanence of written communication
+- Privacy: What personal information is safe to share, and with whom
+- Critical evaluation of online sources: Lateral reading, checking authorship and date, identifying bias
+
+Cyberbullying:
+- More common than many teachers realise
+- Often occurs outside school hours but affects school behaviour and wellbeing
+- Schools need clear policies; teachers need to know how to respond
+- Prevention is more effective than reaction: build a classroom culture of respect and empathy
+
+---
+
+Equity and Access
+
+Technology integration must account for the digital divide:
+- Not all students have reliable internet access at home
+- Not all students have personal devices
+- Some students have disabilities that affect how they interact with technology (screen readers, alternative input devices)
+
+Strategies:
+- Design technology tasks that can be completed at school if needed
+- Provide offline alternatives for homework tasks
+- Ensure all digital content is accessible (captions on videos, alt text on images, screen-reader compatible documents)
+- Avoid assuming all students have the same level of digital literacy
+
+---
+
+Artificial Intelligence in Education
+
+AI tools (including large language models) are increasingly present in classrooms. Teachers need to develop their own understanding and help students navigate these tools critically.
+
+Opportunities:
+- Personalised feedback and practice (AI tutoring tools)
+- Accessibility support (text-to-speech, translation, summarisation)
+- Reducing administrative burden (lesson planning assistance, report writing support)
+
+Risks and considerations:
+- Academic integrity: Students may use AI to complete work without engaging with the learning
+- Accuracy: AI tools can produce plausible-sounding but incorrect information (hallucination)
+- Bias: AI systems reflect the biases in their training data
+- Dependency: Over-reliance on AI may reduce the development of foundational skills
+
+A useful framing: AI is a thinking partner, not a thinking replacement. Teaching students to use AI critically — to prompt well, evaluate outputs, and verify claims — is a 21st-century literacy skill.

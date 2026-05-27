@@ -1,0 +1,63 @@
+Instructional Coaching Frameworks
+
+Instructional coaching is a form of job-embedded professional development in which a coach works alongside teachers to improve instructional practice. Unlike evaluative supervision, coaching is non-judgmental and teacher-driven.
+
+The GROW Model (Goal, Reality, Options, Will):
+- Goal: What does the teacher want to achieve?
+- Reality: What is the current situation? What data do we have?
+- Options: What strategies or approaches could address the gap?
+- Will: What specific action will the teacher take, and by when?
+
+The GROW model is widely used in coaching conversations because it keeps the teacher in the driver's seat. The coach asks questions rather than giving answers.
+
+---
+
+Reflective Questioning Techniques
+
+Powerful coaching questions open up thinking rather than close it down.
+
+Types of reflective questions:
+- Clarifying: "Can you say more about what you mean by that?"
+- Probing: "What evidence do you have that students understood the concept?"
+- Reframing: "If a student who struggled today came back tomorrow, what would you want them to experience differently?"
+- Goal-setting: "What's one small change you could try in the next lesson?"
+- Celebrating: "What went well today, and why do you think it worked?"
+
+Avoid leading questions that embed the coach's preferred answer ("Don't you think you should have...?").
+
+---
+
+Lesson Study
+
+Lesson study is a collaborative professional learning process originating in Japan. A small group of teachers:
+1. Collaboratively plan a "research lesson" focused on a specific learning challenge.
+2. One teacher teaches the lesson while others observe student learning (not teacher performance).
+3. The group debriefs, focusing on evidence of student understanding.
+4. The lesson is revised and optionally re-taught.
+
+Lesson study builds shared professional knowledge and shifts the focus from teacher performance to student learning.
+
+---
+
+Cognitive Coaching
+
+Cognitive coaching (Costa & Garmston) aims to develop the self-directedness of teachers. The coach's role is to mediate thinking, not to transfer knowledge.
+
+The five states of mind that cognitive coaching develops:
+1. Efficacy: Belief in one's capacity to make a difference.
+2. Flexibility: Willingness to consider multiple perspectives.
+3. Craftsmanship: Commitment to continuous improvement.
+4. Consciousness: Awareness of one's own thinking and behaviour.
+5. Interdependence: Valuing collaboration and community.
+
+---
+
+Data-Informed Coaching
+
+Effective coaching is grounded in evidence. Types of data used in coaching:
+- Student work samples: Analysing student writing, problem-solving, or projects together reveals patterns in understanding and misconceptions.
+- Observation data: Scripted notes from classroom observations (e.g., tracking which students are called on, time on task) provide objective starting points for conversation.
+- Assessment data: Formative and summative results help identify which students need additional support and which instructional approaches are working.
+- Teacher self-assessment: Surveys or reflection tools help teachers identify their own priorities for growth.
+
+The coaching conversation should always return to the question: "What impact did this have on student learning?"
