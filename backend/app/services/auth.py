@@ -11,11 +11,11 @@ from passlib.context import CryptContext
 # Use a pure-Python, bcrypt-free scheme for local dev reliability.
 _pwd = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
-JWT_SECRET = os.getenv("TEACHUP_JWT_SECRET", "teachup-dev-secret-change-me")
-JWT_ALG = os.getenv("TEACHUP_JWT_ALG", "HS256")
+JWT_SECRET = os.getenv("UPTEACH_JWT_SECRET", "upteach-dev-secret-change-me")
+JWT_ALG = os.getenv("UPTEACH_JWT_ALG", "HS256")
 
-ACCESS_TTL_MIN = int(os.getenv("TEACHUP_ACCESS_TTL_MIN", "30"))
-REFRESH_TTL_DAYS = int(os.getenv("TEACHUP_REFRESH_TTL_DAYS", "30"))
+ACCESS_TTL_MIN = int(os.getenv("UPTEACH_ACCESS_TTL_MIN", "30"))
+REFRESH_TTL_DAYS = int(os.getenv("UPTEACH_REFRESH_TTL_DAYS", "30"))
 
 
 def hash_password(password: str) -> str:

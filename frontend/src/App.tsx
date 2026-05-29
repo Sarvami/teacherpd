@@ -26,7 +26,7 @@ type HealthState = 'ok' | 'down' | 'unknown'
 type Tab = 'chat' | 'peers'
 
 export default function App() {
-  const appName = 'TeachUp'
+  const appName = 'UpTeach'
   const toasts = useToasts()
 
   const reduceMotion = useReducedMotion()

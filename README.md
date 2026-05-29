@@ -1,6 +1,6 @@
-# TeachUp — AI Teacher Coaching Companion
+# UpTeach — AI Teacher Coaching Companion
 
-An AI-powered professional development platform for teachers. TeachUp provides streaming coaching conversations, lesson planning, assessment generation, PD goal tracking, and peer matching — all personalized to each teacher's profile.
+An AI-powered professional development platform for teachers. UpTeach provides streaming coaching conversations, lesson planning, assessment generation, PD goal tracking, and peer matching — all personalized to each teacher's profile.
 
 ---
 
@@ -45,7 +45,7 @@ teacherpd/
 │   │   └── knowledge_base/       # .txt pedagogy documents for RAG
 │   ├── models/
 │   │   ├── schemas.py            # Legacy coaching Pydantic schemas
-│   │   └── teachup_schemas.py    # TeachUp API Pydantic schemas
+│   │   └── upteach_schemas.py    # UpTeach API Pydantic schemas
 │   ├── teacherpd.db              # SQLite database (dev)
 │   ├── seed.py                   # Seeds sample teacher data
 │   ├── .env                      # Local environment config
@@ -54,7 +54,7 @@ teacherpd/
     ├── src/
     │   ├── features/
     │   │   ├── auth/             # Login + register card
-    │   │   ├── chat/             # Streaming AI chat (TeachUpChat)
+    │   │   ├── chat/             # Streaming AI chat (UpTeachChat)
     │   │   ├── coaching/         # Legacy coaching chat (CoachChat)
     │   │   ├── insights/         # Session history + peer matches panel
     │   │   ├── onboarding/       # Legacy teacher onboarding card
@@ -62,7 +62,7 @@ teacherpd/
     │   ├── components/           # Shared UI (Button, Card, MultiSelect, etc.)
     │   ├── lib/
     │   │   ├── api.ts            # Base fetch wrapper + ApiError
-    │   │   ├── teachupApi.ts     # All typed API functions
+    │   │   ├── teachupApi.ts     # All typed API functions (upteach)
     │   │   ├── teachupAuth.ts    # Token storage (localStorage)
     │   │   └── teachupTypes.ts   # TypeScript types matching backend schemas
     │   └── App.tsx               # Root: auth → profile setup → chat
@@ -142,9 +142,9 @@ Adds 5 sample teachers with profile embeddings for testing peer matching.
 | `DATABASE_URL` | `sqlite:///./teacherpd.db` | Switch to `postgresql://...` for production |
 | `OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama server URL |
 | `OLLAMA_MODEL` | `gemma:2b` | Model name (any Ollama-compatible model) |
-| `TEACHUP_JWT_SECRET` | `teachup-dev-secret-change-me` | **Change before deploying** |
-| `TEACHUP_ACCESS_TTL_MIN` | `30` | Access token lifetime in minutes |
-| `TEACHUP_REFRESH_TTL_DAYS` | `30` | Refresh token lifetime in days |
+| `UPTEACH_JWT_SECRET` | `upteach-dev-secret-change-me` | **Change before deploying** |
+| `UPTEACH_ACCESS_TTL_MIN` | `30` | Access token lifetime in minutes |
+| `UPTEACH_REFRESH_TTL_DAYS` | `30` | Refresh token lifetime in days |
 | `CHROMA_PERSIST_DIR` | `./data/chroma` | ChromaDB storage path |
 
 ### Frontend — `frontend/.env`

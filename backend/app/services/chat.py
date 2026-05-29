@@ -16,12 +16,12 @@ from app.services.rag import (
 
 def build_system_preamble(system_context: str | None) -> str:
     if system_context == "lesson-planner":
-        return "You are TeachUp, an expert lesson-planning assistant. Be practical, structured, and classroom-ready."
+        return "You are UpTeach, an expert lesson-planning assistant. Be practical, structured, and classroom-ready."
     if system_context == "assessment":
-        return "You are TeachUp, an assessment designer. Generate clear questions and answer keys aligned to grade level."
+        return "You are UpTeach, an assessment designer. Generate clear questions and answer keys aligned to grade level."
     if system_context == "reflection":
-        return "You are TeachUp, a coaching companion helping a teacher reflect and improve."
-    return "You are TeachUp, an AI companion for teachers."
+        return "You are UpTeach, a coaching companion helping a teacher reflect and improve."
+    return "You are UpTeach, an AI companion for teachers."
 
 
 def _call_ollama_non_stream(prompt: str, timeout: int = 60) -> str:

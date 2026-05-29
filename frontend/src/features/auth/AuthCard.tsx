@@ -38,7 +38,7 @@ export function AuthCard({ busy, onLogin, onRegister }: Props) {
 
   useEffect(() => {
     try {
-      const remembered = window.localStorage.getItem('teachup:rememberEmail')
+      const remembered = window.localStorage.getItem('upteach:rememberEmail')
       if (remembered) {
         setEmail(remembered)
         setRememberMe(true)
@@ -68,9 +68,9 @@ export function AuthCard({ busy, onLogin, onRegister }: Props) {
 
     try {
       if (rememberMe && email.trim()) {
-        window.localStorage.setItem('teachup:rememberEmail', email.trim())
+        window.localStorage.setItem('upteach:rememberEmail', email.trim())
       } else {
-        window.localStorage.removeItem('teachup:rememberEmail')
+        window.localStorage.removeItem('upteach:rememberEmail')
       }
     } catch {
       // ignore
@@ -109,7 +109,7 @@ export function AuthCard({ busy, onLogin, onRegister }: Props) {
 
         <CardHeader className="pb-4">
           <div className="min-w-0">
-            <div className="text-xs font-semibold uppercase tracking-[0.28em] text-white/45">TeachUp</div>
+            <div className="text-xs font-semibold uppercase tracking-[0.28em] text-white/45">UpTeach</div>
             <CardTitle className="mt-1 text-base">
               {mode === 'login' ? 'Welcome back' : 'Create your account'}
             </CardTitle>
@@ -170,7 +170,7 @@ export function AuthCard({ busy, onLogin, onRegister }: Props) {
                     Plan faster. Teach calmer.
                   </div>
                   <div className="mt-2 text-xs leading-relaxed text-white/55">
-                    TeachUp is designed for teachers who want coaching-style feedback, not generic answers.
+                    UpTeach is designed for teachers who want coaching-style feedback, not generic answers.
                   </div>
 
                   <div className="mt-4 grid gap-2 text-xs text-white/60">
@@ -311,7 +311,7 @@ export function AuthCard({ busy, onLogin, onRegister }: Props) {
                   <HelpText>
                     {mode === 'register'
                       ? 'Minimum 8 characters for registration.'
-                      : 'Use your TeachUp password.'}
+                      : 'Use your UpTeach password.'}
                   </HelpText>
                 </div>
 
@@ -327,7 +327,7 @@ export function AuthCard({ busy, onLogin, onRegister }: Props) {
                   </label>
                   <a
                     className="text-xs text-white/60 underline-offset-4 hover:text-white hover:underline"
-                    href="mailto:support@teachup.local?subject=TeachUp%20Password%20Reset"
+                    href="mailto:support@upteach.local?subject=UpTeach%20Password%20Reset"
                   >
                     Forgot password?
                   </a>

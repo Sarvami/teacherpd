@@ -17,7 +17,7 @@ from models.teachup_schemas import AuthResponse, LoginRequest, RegisterRequest
 router = APIRouter(prefix="/api/auth", tags=["teachup-auth"])
 
 
-REFRESH_COOKIE = "teachup_refresh"
+REFRESH_COOKIE = "upteach_refresh"
 
 
 def _set_refresh_cookie(response: Response, token: str) -> None:

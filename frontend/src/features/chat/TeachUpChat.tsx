@@ -26,7 +26,7 @@ type Props = {
 
 export function TeachUpChat({ teacherName, systemContext = 'general' }: Props) {
   const [conversationId, setConversationId] = useState<string | null>(null)
-  const storageKey = `teachup:draft:${systemContext}`
+  const storageKey = `upteach:draft:${systemContext}`
   const [draft, setDraft] = useState(() => {
     try {
       return window.localStorage.getItem(storageKey) || ''

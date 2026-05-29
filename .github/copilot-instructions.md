@@ -1,6 +1,6 @@
-# TeachUp Frontend — Copilot Instructions
+# UpTeach Frontend — Copilot Instructions
 
-## Project: TeachUp AI Teacher Companion
+## Project: UpTeach AI Teacher Companion
 - React 18 + TypeScript (strict) + Vite
 - Tailwind CSS + shadcn/ui (New York variant)
 - TanStack Query v5 for server state, Zustand for client state
@@ -9,8 +9,8 @@
 
 ## Important repo reality check (current state)
 - The downloaded backend currently exposes: `/health`, `/teachers`, `/reflect`, `/sessions/{teacher_id}`, `/match-peer/{teacher_id}`.
-- The broader `/api/auth/*`, `/api/chat/*`, `/api/lessons/*`, `/api/assessments/*`, `/api/pd/*`, `/api/profile/*` routes described in the TeachUp spec are not present yet.
-- When implementing TeachUp features, prefer to **adapt to existing endpoints** unless/until backend routes are added.
+- The broader `/api/auth/*`, `/api/chat/*`, `/api/lessons/*`, `/api/assessments/*`, `/api/pd/*`, `/api/profile/*` routes described in the UpTeach spec are not present yet.
+- When implementing UpTeach features, prefer to **adapt to existing endpoints** unless/until backend routes are added.
 
 ## Code Style
 - Always use TypeScript — no `any`

@@ -190,7 +190,7 @@ export function ProfileSetupCard({
             <div className="mt-1 text-xs text-white/45">
               {mode === 'edit'
                 ? 'Update your details to keep coaching suggestions accurate.'
-                : 'This helps TeachUp tailor suggestions to your context.'}
+                : 'This helps UpTeach tailor suggestions to your context.'}
             </div>
           </div>
 

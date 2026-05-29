@@ -32,7 +32,7 @@ class Base(DeclarativeBase):
     pass
 
 
-# ── TeachUp auth & app models ───────────────────────────────────────────────
+# ── UpTeach auth & app models ───────────────────────────────────────────────
 
 
 class User(Base):
@@ -44,7 +44,7 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
 
-    # Optional link to a TeacherPD profile (so TeachUp can reuse /reflect, peers, etc.)
+    # Optional link to a TeacherPD profile (so UpTeach can reuse /reflect, peers, etc.)
     teacher_profile = relationship("Teacher", back_populates="user", uselist=False)
 
     conversations = relationship("ChatConversation", back_populates="user")
@@ -151,7 +151,7 @@ class Teacher(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    # TeachUp owner (nullable for legacy TeacherPD flows)
+    # UpTeach owner (nullable for legacy TeacherPD flows)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True, unique=True)
 
     # ── Identity ─────────────────────────────────────────────────────────────

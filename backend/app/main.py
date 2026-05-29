@@ -33,7 +33,7 @@ logging.basicConfig(level=logging.INFO)
 KNOWLEDGE_BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "knowledge_base")
 
 app = FastAPI(
-    title="TeacherPD API",
+    title="UpTeach API",
     description="AI-powered professional development coaching and peer matching for teachers.",
     version="0.1.0",
 )
@@ -49,7 +49,7 @@ app.add_middleware(
 app.include_router(coaching_router)
 app.include_router(peers_router)
 
-# TeachUp API (v1)
+# ── UpTeach API (v1) ─────────────────────────────────────────────────────────
 app.include_router(teachup_auth_router)
 app.include_router(teachup_profile_router)
 app.include_router(teachup_chat_router)

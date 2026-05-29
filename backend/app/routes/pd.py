@@ -175,7 +175,7 @@ def recommendations(user: User = Depends(get_current_user), db: Session = Depend
                 CourseRecommendation(
                     id=str(item.get("id") or f"rec_{i+1}"),
                     title=str(item.get("title") or "PD Recommendation"),
-                    platform=str(item.get("platform") or "TeachUp"),
+                    platform=str(item.get("platform") or "UpTeach"),
                     duration=str(item.get("duration") or "2 hours"),
                     relevance=float(item.get("relevance") or 0.7),
                     why=str(item.get("why") or "Aligned to your recent reflections."),

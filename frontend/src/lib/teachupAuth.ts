@@ -1,7 +1,7 @@
 import type { AuthUser } from './teachupTypes'
 
-const TOKEN_KEY = 'teachup:accessToken'
-const USER_KEY = 'teachup:user'
+const TOKEN_KEY = 'upteach:accessToken'
+const USER_KEY = 'upteach:user'
 
 export function loadAccessToken(): string | null {
   const raw = localStorage.getItem(TOKEN_KEY)
