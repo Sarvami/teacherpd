@@ -9,10 +9,11 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
-from app.db.database import ChatConversation, ChatMessage, SessionLocal, Teacher, User, get_db
+from app.db.database import ChatConversation, ChatMessage, CoachingSession, SessionLocal, Teacher, User, get_db
 from app.routes.deps import get_current_user
 from app.services.chat import generate_chat_response, probe_ollama
-from app.services.rag import build_teacher_context
+from app.services.rag import build_teacher_context, classify_theme
+from app.services.embeddings import upsert_teacher_profile
 from models.teachup_schemas import (
     ChatMessageIn,
     ChatMessageResponse,
@@ -214,7 +215,13 @@ def send_message(
     db.commit()
 
     teacher = db.query(Teacher).filter(Teacher.user_id == user.id).first()
-    teacher_ctx = build_teacher_context(teacher) if teacher else ""
+    if not teacher:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Teacher profile not found. Please complete profile setup first."
+        )
+
+    teacher_ctx = build_teacher_context(teacher)
     # Build proper user↔assistant history pairs (exclude the last user message
     # which is being sent now — it's passed as user_message directly)
     history = _build_history(payload.messages[:-1])
@@ -227,19 +234,65 @@ def send_message(
         streaming=False,
     )
 
+    ai_content = str(ai)
     assistant_id = uuid.uuid4().hex
     msg = ChatMessage(
         id=assistant_id,
         conversation_id=conv.id,
         role="assistant",
-        content=str(ai),
+        content=ai_content,
         model=None,
         tokens_used=None,
     )
     db.add(msg)
     conv.updated_at = _now()
     db.add(conv)
+
+    # Existing coaching logic:
+    try:
+        theme = classify_theme(last_user.content)
+    except Exception:
+        theme = "other"
+
+    session = CoachingSession(
+        teacher_id=teacher.id,
+        message=last_user.content,
+        ai_response=ai_content,
+        theme=theme,
+    )
+    db.add(session)
     db.commit()
+
+    # Refresh profile embedding with all accumulated themes
+    all_themes = (
+        db.query(CoachingSession.theme)
+        .filter(
+            CoachingSession.teacher_id == teacher.id,
+            CoachingSession.theme.isnot(None),
+        )
+        .distinct()
+        .all()
+    )
+    theme_list = [t[0] for t in all_themes if t[0]]
+    try:
+        upsert_teacher_profile(
+            teacher_id=teacher.id,
+            grade=teacher.grades_taught,
+            subject=teacher.subjects_taught,
+            themes=theme_list,
+            metadata={
+                "name": teacher.name,
+                "school": teacher.school or "",
+                "school_type": teacher.school_type or "",
+                "school_location": teacher.school_location or "",
+                "state": teacher.state or "",
+                "district": teacher.district or "",
+                "instruction_language": teacher.instruction_language or "",
+                "coaching_language": teacher.coaching_language or "English",
+            },
+        )
+    except Exception as exc:
+        print(f"Profile embedding update failed for teacher {teacher.id}: {exc}")
 
     return ChatMessageResponse(
         conversationId=conv.id,
@@ -296,7 +349,14 @@ def stream_chat(
     db.commit()
 
     teacher = db.query(Teacher).filter(Teacher.user_id == user.id).first()
-    teacher_ctx = build_teacher_context(teacher) if teacher else ""
+    if not teacher:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Teacher profile not found. Please complete profile setup first."
+        )
+
+    teacher_id = teacher.id
+    teacher_ctx = build_teacher_context(teacher)
     history = _build_history(payload.messages[:-1])
 
     assistant_id = uuid.uuid4().hex
@@ -345,7 +405,55 @@ def stream_chat(
             if conv2:
                 conv2.updated_at = _now()
                 db2.add(conv2)
+
+            # Classify theme
+            try:
+                theme = classify_theme(last_user.content)
+            except Exception:
+                theme = "other"
+
+            # Create CoachingSession
+            session = CoachingSession(
+                teacher_id=teacher_id,
+                message=last_user.content,
+                ai_response=full,
+                theme=theme,
+            )
+            db2.add(session)
             db2.commit()
+
+            # Refresh profile embedding with all accumulated themes
+            all_themes = (
+                db2.query(CoachingSession.theme)
+                .filter(
+                    CoachingSession.teacher_id == teacher_id,
+                    CoachingSession.theme.isnot(None),
+                )
+                .distinct()
+                .all()
+            )
+            theme_list = [t[0] for t in all_themes if t[0]]
+            teacher2 = db2.query(Teacher).filter(Teacher.id == teacher_id).first()
+            if teacher2:
+                try:
+                    upsert_teacher_profile(
+                        teacher_id=teacher2.id,
+                        grade=teacher2.grades_taught,
+                        subject=teacher2.subjects_taught,
+                        themes=theme_list,
+                        metadata={
+                            "name": teacher2.name,
+                            "school": teacher2.school or "",
+                            "school_type": teacher2.school_type or "",
+                            "school_location": teacher2.school_location or "",
+                            "state": teacher2.state or "",
+                            "district": teacher2.district or "",
+                            "instruction_language": teacher2.instruction_language or "",
+                            "coaching_language": teacher2.coaching_language or "English",
+                        },
+                    )
+                except Exception as exc:
+                    print(f"Profile embedding update failed for teacher {teacher2.id}: {exc}")
         finally:
             db2.close()
 
